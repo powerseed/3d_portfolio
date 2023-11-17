@@ -18,7 +18,7 @@ const Island = ({isRotating, setIsRotating, setCurrentStage, ...props}) => {
         e.preventDefault();
         setIsRotating(true);
 
-        lastX = e.touches ? e.touches[0].clientX : e.clientX;
+        lastX.current = e.touches ? e.touches[0].clientX : e.clientX;
     }
 
     const handlePointerUp = (e) => {
@@ -42,7 +42,7 @@ const Island = ({isRotating, setIsRotating, setCurrentStage, ...props}) => {
         }
     }
 
-    const handleKeyDown = () => {
+    const handleKeyDown = (e) => {
         if (e.key === 'ArrowLeft') {
             if (!isRotating) {
                 setIsRotating(true);
@@ -57,7 +57,7 @@ const Island = ({isRotating, setIsRotating, setCurrentStage, ...props}) => {
         }
     }
 
-    const handleKeyUp = () => {
+    const handleKeyUp = (e) => {
         if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
             setIsRotating(false);
         }
@@ -79,18 +79,23 @@ const Island = ({isRotating, setIsRotating, setCurrentStage, ...props}) => {
 
             switch (true) {
                 case normalizedRotation >= 5.45 && normalizedRotation <= 5.85:
+                    console.log("setCurrentStage(4)")
                     setCurrentStage(4);
                     break;
                 case normalizedRotation >= 0.85 && normalizedRotation <= 1.3:
+                    console.log("setCurrentStage(3)")
                     setCurrentStage(3);
                     break;
                 case normalizedRotation >= 2.4 && normalizedRotation <= 2.6:
+                    console.log("setCurrentStage(2)")
                     setCurrentStage(2);
                     break;
                 case normalizedRotation >= 4.25 && normalizedRotation <= 4.75:
+                    console.log("setCurrentStage(1)")
                     setCurrentStage(1);
                     break;
                 default:
+                    console.log("setCurrentStage(null)")
                     setCurrentStage(null);
             }
         }
