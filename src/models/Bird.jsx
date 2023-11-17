@@ -1,12 +1,28 @@
-import React from 'react'
-import { useGLTF } from '@react-three/drei'
+import React, { useEffect, useRef } from 'react'
+import { useAnimations, useGLTF } from '@react-three/drei'
 import birdScene from '../assets/3d/bird.glb'
+import { useFrame } from '@react-three/fiber';
 
-const Bird = (props) => {
+const Bird = ({ isRotating, ...props }) => {
     const { scene, animations } = useGLTF(birdScene)
+    const ref = useRef();
+    const { actions } = useAnimations(animations, ref)
+
+    useEffect(() => {
+        actions['Take 001'].play();
+    }, [actions])
+
+    useFrame((_, delta) => {
+        if (ref.current.position.x > window.innerWidth) {
+            ref.current.position.x = 0;
+        }
+        else {
+            ref.current.position.x += 10 * delta;
+        }
+    })
 
     return (
-        <mesh {...props}>
+        <mesh {...props} ref={ref}>
             <primitive object={scene} />
         </mesh>
     )
